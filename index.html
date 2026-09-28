@@ -235,6 +235,10 @@
   }
   .traga-sua-lista strong, .aviso-provedor strong { color: var(--accent-soft); }
   section > p.lead.aviso-provedor { margin-top: 14px; font-size: 16px; }
+  /* 27/09 — QUAL lista. "Você usa a sua própria lista" prometia qualquer uma, e
+     os apps só leem Xtream (usuário e senha no link). Quem tem M3U pura
+     assinaria e receberia erro. Em linha própria para ser lida, não enterrada. */
+  .formato-da-lista { display: block; margin-top: 8px; font-size: 15px; }
 
   .grid {
     display: grid;
@@ -340,7 +344,9 @@
   um da família e continue-assistindo que atravessa os aparelhos.</p>
   <p class="traga-sua-lista"><strong>Você usa a sua própria lista.</strong>
   O Max IPTV não vende, não hospeda e não fornece nenhum conteúdo — ele toca o
-  que o seu provedor já te entrega.</p>
+  que o seu provedor já te entrega.
+  <span class="formato-da-lista">Compatível com listas no <strong>formato Xtream</strong>
+  — o link com usuário e senha que o seu provedor envia.</span></p>
   <div class="plataformas">
     <div class="chip">📺 Samsung Smart TV</div>
     <div class="chip">🍎 Apple TV</div>
