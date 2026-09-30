@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 // confiança mais importa: numa mensagem pedindo dinheiro por assinatura.
 //
 // Mesma marca do ícone (`MaxIPTVApple/tools/GerarIcone.swift`): fundo
-// azul-escuro, "M" âmbar, o resto claro.
+// azul-escuro, "NOT" claro e "TV" âmbar (até 30/09: "M" âmbar do MAX IPTV).
 //
 // Uso:  swift tools/GerarOG.swift  (gera og.png na raiz do site)
 
@@ -78,12 +78,15 @@ let img = desenha(L, A) { ctx in
     ctx.setFillColor(verde)
     ctx.fillEllipse(in: CGRect(x: 96, y: 402, width: 26, height: 26))
 
-    // "MAX IPTV" com o M em âmbar, como na marca.
+    // "NOT" claro + "TV" âmbar, como a marca dentro dos apps.
     var x: CGFloat = 146
-    x += texto(ctx, "M", fonte: marca, cor: ambar, x: x, y: 380)
-    texto(ctx, "AX IPTV", fonte: marca, cor: claro, x: x, y: 380)
+    x += texto(ctx, "NOT", fonte: marca, cor: claro, x: x, y: 380)
+    texto(ctx, "TV", fonte: marca, cor: ambar, x: x, y: 380)
 
-    texto(ctx, "Filmes, séries e canais ao vivo — numa TV só.",
+    // ⚠️ Era "Filmes, séries e canais ao vivo — numa TV só." — a frase de
+    // SERVIÇO DE CONTEÚDO que saiu do site em 11/09 e sobreviveu dentro desta
+    // imagem, que é o que aparece quando alguém compartilha o link.
+    texto(ctx, "O player para a sua lista IPTV.",
           fonte: sub, cor: apagado, x: 96, y: 296)
     texto(ctx, "Um login para a família toda. Continue de onde parou.",
           fonte: sub, cor: apagado, x: 96, y: 236)

@@ -14,8 +14,8 @@ import UniformTypeIdentifiers
 // alcançável. Geramos 48/96/192/512 — os pequenos para a aba do navegador, os
 // grandes para atalho de celular e para o Google escolher.
 //
-// A marca aqui é o "M" âmbar sobre o fundo escuro. O logotipo inteiro
-// ("MAX IPTV") não cabe: a 48px viraria um borrão. Ícone precisa funcionar no
+// A marca aqui é o "TV" âmbar sobre o fundo escuro (até 30/09 era o "M" do
+// MAX IPTV). O logotipo inteiro ("NOTTV") não cabe: a 48px viraria um borrão. Ícone precisa funcionar no
 // tamanho MENOR em que vai aparecer.
 //
 // Uso:  swift tools/GerarIcone.swift
@@ -57,21 +57,23 @@ for lado in [48, 96, 192, 512] {
         ctx.setFillColor(fundo)
         ctx.fill(CGRect(x: 0, y: 0, width: L, height: L))
 
-        // O "M" ocupando quase todo o quadro — num favicon de 48px, margem é
+        // O "TV" ocupando quase todo o quadro — num favicon de 48px, margem é
         // espaço desperdiçado.
-        let fonte = CTFontCreateWithName("Helvetica-Bold" as CFString, L * 0.72, nil)
+        let fonte = CTFontCreateWithName("Helvetica-Bold" as CFString, L * 0.56, nil)
         let attrs: [CFString: Any] = [kCTFontAttributeName: fonte, kCTForegroundColorAttributeName: ambar]
-        let str = CFAttributedStringCreate(nil, "M" as CFString, attrs as CFDictionary)!
+        let str = CFAttributedStringCreate(nil, "TV" as CFString, attrs as CFDictionary)!
         let linha = CTLineCreateWithAttributedString(str)
         var ascent: CGFloat = 0, descent: CGFloat = 0
         let largura = CGFloat(CTLineGetTypographicBounds(linha, &ascent, &descent, nil))
-        ctx.textPosition = CGPoint(x: (L - largura) / 2, y: (L - (ascent - descent)) / 2)
+        // Um pouco abaixo do centro: com "TV" (mais largo que o "M"), o topo do T
+        // encostava na bolinha verde do canto. Medido na primeira geração.
+        ctx.textPosition = CGPoint(x: (L - largura) / 2, y: (L - (ascent - descent)) / 2 - L * 0.08)
         CTLineDraw(linha, ctx)
 
         // O ponto "ao vivo" — o mesmo sinal verde da marca, no canto.
-        let d = L * 0.16
+        let d = L * 0.13
         ctx.setFillColor(verde)
-        ctx.fillEllipse(in: CGRect(x: L * 0.10, y: L * 0.72, width: d, height: d))
+        ctx.fillEllipse(in: CGRect(x: L * 0.09, y: L * 0.77, width: d, height: d))
     })
     guard let imagem else { continue }
     salva(imagem, "icone-\(lado).png")
