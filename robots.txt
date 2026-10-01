@@ -1,4 +1,4 @@
-# Max IPTV — https://maxiptvoficial.com.br
+# NotTV — https://nottv.com.br
 #
 # Sem restrição: o site é institucional e queremos que ele seja lido.
 # A ausência deste arquivo NÃO estava bloqueando nada (sem robots.txt, o padrão
@@ -6,4 +6,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://maxiptvoficial.com.br/sitemap.xml
+Sitemap: https://nottv.com.br/sitemap.xml
