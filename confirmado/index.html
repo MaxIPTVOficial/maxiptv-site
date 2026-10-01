@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NotTV — e-mail confirmado</title>
+<!-- Página de chegada do link "Confirmar meu e-mail" (Supabase → Site URL).
+     Fora do Google de propósito: só faz sentido para quem acabou de clicar no link. -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico">
+<style>
+  :root { --bg:#070A0F; --panel:#0F141C; --border:#222A36; --text:#F6F8FC; --dim:#93A0B4; --mute:#5A6474; --accent:#FFB020; --live:#34D399; --erro:#EF4A5B; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+         background:var(--bg); color:var(--text);
+         font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  .cartao { width:100%; max-width:460px; background:var(--panel); border:1px solid var(--border); border-radius:18px; padding:36px 32px; text-align:center; }
+  .marca { font-size:20px; font-weight:800; letter-spacing:1.5px; margin-bottom:28px; }
+  .marca .ponto { display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--live); margin-right:8px; }
+  .marca b { color:var(--accent); font-weight:800; }
+  .selo { width:64px; height:64px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; }
+  .ok .selo { background:rgba(52,211,153,.14); color:var(--live); }
+  .falhou .selo { background:rgba(239,74,91,.14); color:var(--erro); }
+  h1 { font-size:24px; line-height:1.25; margin:0 0 12px; text-wrap:balance; }
+  p { font-size:16px; line-height:1.6; color:var(--dim); margin:0 0 10px; }
+  p strong { color:var(--text); }
+  .nota { font-size:14px; color:var(--mute); border-top:1px solid var(--border); margin-top:22px; padding-top:18px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main class="cartao">
+  <div class="marca"><span class="ponto"></span>NOT<b>TV</b></div>
+
+  <!-- Estado normal: o link funcionou. -->
+  <section id="ok" class="ok">
+    <div class="selo">&#10003;</div>
+    <h1>E-mail confirmado</h1>
+    <p>Sua conta do NotTV est&#225; pronta.</p>
+    <p><strong>Volte ao app</strong> e entre com o seu e-mail e a sua senha.</p>
+    <p class="nota">Pode fechar esta p&#225;gina.</p>
+  </section>
+
+  <!-- O link n&#227;o valeu: expirou ou j&#225; tinha sido usado. -->
+  <section id="falhou" class="falhou" hidden>
+    <div class="selo">!</div>
+    <h1>Este link n&#227;o vale mais</h1>
+    <p>Ele expirou ou j&#225; foi usado.</p>
+    <p><strong>Tente entrar no app</strong> com o seu e-mail e a sua senha &#8212; se voc&#234; j&#225; tinha confirmado antes, a conta est&#225; pronta.</p>
+    <p class="nota">Se o app pedir a confirma&#231;&#227;o de novo, fa&#231;a o cadastro outra vez para receber um link novo.</p>
+  </section>
+</main>
+<script>
+  // ⚠️ O Supabase manda a pessoa para cá nos DOIS casos — sucesso e falha — e
+  // avisa a falha no próprio endereço (#error=…&error_code=otp_expired, ou
+  // ?error=…). Sem esta checagem a página diria "confirmado" para um link
+  // vencido, que é pior do que não ter página nenhuma.
+  (function () {
+    var onde = (location.hash || '') + '&' + (location.search || '');
+    if (/[#&?]error(_code|_description)?=/.test(onde)) {
+      document.getElementById('ok').hidden = true;
+      document.getElementById('falhou').hidden = false;
+      document.title = 'NotTV — link expirado';
+    }
+  })();
+</script>
+</body>
+</html>
