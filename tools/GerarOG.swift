@@ -56,6 +56,29 @@ let claro   = cor(246, 248, 252)  // --text
 let apagado = cor(147, 160, 180)  // --text-dim
 let verde   = cor(52, 211, 153)
 
+// A marca "Corte": tela partida por um corte diagonal, metade branca, metade
+// âmbar. ⚠️ CÓPIA de `MaxIPTVApple/tools/GerarIcone.swift` (a fonte da marca;
+// é de lá que saem os icone-*.png e o favicon.ico deste site). Mudou lá, mude aqui.
+let ambarMarca = cor(255, 197, 49)
+func corte(_ ctx: CGContext, cx: CGFloat, cy: CGFloat, lado: CGFloat) {
+    let e = lado / 1024
+    ctx.saveGState()
+    ctx.translateBy(x: cx, y: cy); ctx.scaleBy(x: e, y: -e); ctx.translateBy(x: -512, y: -512)
+    func metade(_ r: [(CGFloat, CGFloat)], topo: CGFloat, _ c: CGColor) {
+        ctx.saveGState()
+        ctx.move(to: CGPoint(x: r[0].0, y: r[0].1))
+        for p in r.dropFirst() { ctx.addLine(to: CGPoint(x: p.0, y: p.1)) }
+        ctx.closePath(); ctx.clip()
+        ctx.addPath(CGPath(roundedRect: CGRect(x: 172, y: topo, width: 680, height: 480),
+                           cornerWidth: 104, cornerHeight: 104, transform: nil))
+        ctx.setFillColor(c); ctx.fillPath()
+        ctx.restoreGState()
+    }
+    metade([(0, 0), (693, 0), (255, 1024), (0, 1024)], topo: 300, cor(255, 255, 255))
+    metade([(769, 0), (1024, 0), (1024, 1024), (331, 1024)], topo: 244, ambarMarca)
+    ctx.restoreGState()
+}
+
 let L = 1200, A = 630
 
 let img = desenha(L, A) { ctx in
@@ -74,14 +97,11 @@ let img = desenha(L, A) { ctx in
     let sub   = CTFontCreateWithName("Helvetica" as CFString, 40, nil)
     let pe    = CTFontCreateWithName("Helvetica-Bold" as CFString, 30, nil)
 
-    // Ponto "ao vivo" — o mesmo sinal verde que aparece no topo dos apps.
-    ctx.setFillColor(verde)
-    ctx.fillEllipse(in: CGRect(x: 96, y: 402, width: 26, height: 26))
-
-    // "NOT" claro + "TV" âmbar, como a marca dentro dos apps.
-    var x: CGFloat = 146
+    // A marca "Corte" (02/10) no lugar do ponto verde, e o nome ao lado.
+    corte(ctx, cx: 96 + 76, cy: 410, lado: 230)
+    var x: CGFloat = 280
     x += texto(ctx, "NOT", fonte: marca, cor: claro, x: x, y: 380)
-    texto(ctx, "TV", fonte: marca, cor: ambar, x: x, y: 380)
+    texto(ctx, "TV", fonte: marca, cor: ambarMarca, x: x, y: 380)
 
     // ⚠️ Era "Filmes, séries e canais ao vivo — numa TV só." — a frase de
     // SERVIÇO DE CONTEÚDO que saiu do site em 11/09 e sobreviveu dentro desta
